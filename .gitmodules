@@ -1,0 +1,4 @@
+[submodule "pi-gen"]
+	path = os/pi-gen
+	branch = arm64
+	url = https://github.com/RPI-Distro/pi-gen.git
