@@ -1,0 +1,35 @@
+diff --git a/build.sh b/build.sh
+--- a/build.sh
++++ b/build.sh
+@@ -221,10 +221,10 @@ export DEPLOY_COMPRESSION=${DEPLOY_COMPRESSION:-zip}
+ export COMPRESSION_LEVEL=${COMPRESSION_LEVEL:-6}
+ export LOG_FILE="${WORK_DIR}/build.log"
+ 
+-export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
++export TARGET_HOSTNAME=${TARGET_HOSTNAME:-pi-dj}
+ 
+ export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
+-export FIRST_USER_PASS
++export FIRST_USER_PASS=${FIRST_USER_PASS:-dj}
+ export DISABLE_FIRST_BOOT_USER_RENAME=${DISABLE_FIRST_BOOT_USER_RENAME:-0}
+ export RELEASE=${RELEASE:-bullseye} # Don't forget to update stage0/prerun.sh
+ export WPA_ESSID
+@@ -248,6 +248,9 @@ export CLEAN
+ export IMG_NAME
+ export APT_PROXY
+ 
++export HOSTNAME
++export RT_KERNEL_VERSION
++
+ export STAGE
+ export STAGE_DIR
+ export STAGE_WORK_DIR
+@@ -256,8 +259,6 @@ export PREV_STAGE_DIR
+ export ROOTFS_DIR
+ export PREV_ROOTFS_DIR
+ export IMG_SUFFIX
+-export NOOBS_NAME
+-export NOOBS_DESCRIPTION
+ export EXPORT_DIR
+ export EXPORT_ROOTFS_DIR
+ 
