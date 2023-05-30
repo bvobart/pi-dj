@@ -1,4 +1,1 @@
 IMG_NAME=pi-dj
-
-# Temporary, just for testing:
-USE_QEMU=1
