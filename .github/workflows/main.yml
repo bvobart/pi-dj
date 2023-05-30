@@ -24,7 +24,7 @@ jobs:
         run: sudo apt-get install coreutils quilt parted kpartx qemu-utils qemu-user-static debootstrap zerofree zip dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc
 
       - name: Build Pi-DJ
-        run: cd os && DOCKER=false ./build.sh image
+        run: cd os && DOCKER=false sudo ./build.sh image
 
       - uses: actions/upload-artifact@v2
         with:
