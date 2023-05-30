@@ -11,6 +11,8 @@ function usage() {
   echo "Usage: $0 [generator | image]"
   echo "> generator: build the Pi-DJ OS image generator"
   echo "> image: build the Pi-DJ OS image generator, then use it to generate the Pi-DJ OS image"
+  echo
+  echo "Set environment variable DOCKER=false to directly run pi-gen's build.sh instead of build-docker.sh"
 }
 
 if [[ "$target" == "help" ]] || [[ "$target" == "--help" ]] || [[ "$target" == "-h" ]]; then
@@ -21,7 +23,7 @@ if [[ -z "$target" ]]; then
   echo "> Error: no target specified."
   echo
   usage
-  exit
+  exit 1
 fi
 
 echo
@@ -30,7 +32,7 @@ echo "> - Target: $target"
 echo
 
 function build_generator {
-  echo "> applying patches to pi-gen..."
+  echo "> applying patches to pi-gen ..."
 
   cp -r pi-gen $work_dir/
   for file in ./patches/*; do
@@ -59,16 +61,18 @@ function build_generator {
 function build_image() {
   build_generator
 
-  echo "> Step 2: configure pi-gen"
+  echo "> configuring pi-gen ..."
 
   cd "$here_dir"
   cp config $work_dir/pi-gen/
 
+  local script="build-docker.sh"
+  [[ "$DOCKER" == "false" ]] && script="build.sh"
   echo
-  echo "> Step 3: TODO: run pi-gen/build-docker.sh"
+  echo "> run pi-gen/$script ..."
   echo
 
-  $work_dir/pi-gen/build-docker.sh
+  $work_dir/pi-gen/$script
 }
 
 case "$target" in
