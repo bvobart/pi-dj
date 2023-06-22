@@ -4,33 +4,51 @@ on:
   push:
     branches:
       - main
+      - arm-runner
   pull_request:
     paths:
       - "**"
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
 
-      - name: Update apt-get
-        run: sudo apt-get update
-
-      - name: Install build dependencies
-        run: sudo apt-get install coreutils quilt parted kpartx qemu-utils qemu-user-static debootstrap zerofree zip dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc
-
-      - name: Build Pi-DJ
-        run: cd os && DOCKER=false sudo ./build.sh image
-
-      - uses: actions/upload-artifact@v2
+      - uses: pguyot/arm-runner-action@v2
+        id: build_image
         with:
-          name: images
-          path: deploy/*.zip
-      - uses: actions/upload-artifact@v2
+          base_image: dietpi:rpi_armv8_bullseye
+          cpu: cortex-a53
+          commands: |
+            cat /boot/dietpi.txt
+            # TODO: customize the image with the DietPi tools
+            # TODO: create / customize the dietpi.txt file so that it boots nicely and it easily configurable.
+
+      - name: Compress the release image
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/arm-runner'
+        run: |
+          mv ${{ steps.build_image.outputs.image }} pi-dj-${{ github.ref_name }}.img
+          xz -0 -T 0 -v pi-dj-${{ github.ref_name }}.img
+
+      - name: Upload release image
+        uses: actions/upload-artifact@v2
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/arm-runner'
         with:
-          name: packages-info
-          path: deploy/*.info
+          name: Release image
+          path: pi-dj-${{ github.ref_name }}.img.xz
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+        with:
+          draft: github.ref == 'refs/heads/main'
+          prerelease: true
+          # body: "" # TODO
+          files: |
+            # TODO: update files after building
+            Release.txt
+            LICENSE
