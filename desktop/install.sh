@@ -13,6 +13,7 @@ function copy_dotfiles() {
 }
 
 copy_dotfiles alacritty
+copy_dotfiles kitty
 # copy_dotfiles i3
 copy_dotfiles rofi
 # copy_dotfiles polybar
