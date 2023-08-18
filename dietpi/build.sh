@@ -1,29 +1,21 @@
 #!/bin/bash -e
-# This script is meant to be run inside a DietPi image.
+# This script is meant to be run inside a DietPi image and expects to be within this Git repository (as it will look for certain files there)
 # It installs the necessary packages and configs on top of DietPi to create the OS image for Pi-DJ.
 # TODO: figure out how I can experiment with the resulting images without having to flash them onto an actual Pi.
 
-## Install basic packages
-# 5: Alsa
-# 6: X.Org
-# 7: FFmpeg
-# 170: UnRAR
-# 17: Git
-# 188: Go 
-# 67: Firefox
-dietpi-software install 5 6 7 170 17 188 67
+HERE="$(dirname "$(realpath "$0")")"
+REPO_DIR=$(realpath "$HERE/..")
 
+source "$HERE/utils.sh"
+
+## Create pi-dj user and delete default dietpi user
 default_username=pi-dj
 default_password=pidj
-# TODO: create user pi-dj (or pidj) and remove the default dietpi user
+useradd -m -G sudo -s "$(which zsh)" -p $default_password $default_username
+# userdel -r dietpi # not sure if the dietpi user can be removed: https://github.com/MichaIng/DietPi/issues/2807#issuecomment-493044119
 
 ## Configure /boot/dietpi.txt
 # TODO: instruct users about dietpi-wifi.txt to pre-enter WiFicredentials.
-function set_dietpi_config() {
-  key=$1
-  value=$2
-  sed -i "s/^$key=.*/$key=$value/" /boot/dietpi.txt
-}
 
 set_dietpi_config AUTO_SETUP_LOCALE en_GB.UTF-8
 set_dietpi_config AUTO_SETUP_KEYBOARD_LAYOUT gb
@@ -47,7 +39,6 @@ set_dietpi_config SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS root # Disable SSH passwo
                                                             #   0=Allow password logins for all users, including root
                                                             #   root=Disable password login for root user only
                                                             #   1=Disable password logins for all users, assure that you have a valid SSH key applied!
-
 ##### other DietPi.txt stuff to configure later
 #
 # Custom Script (pre-networking and pre-DietPi install)
@@ -65,7 +56,35 @@ set_dietpi_config SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS root # Disable SSH passwo
 #
 #
 
+## Install all packages needed for a usable desktop environment
+# 5: Alsa
+# 6: X.Org
+# 7: FFmpeg
+# 170: UnRAR
+# 17: Git
+# 188: Go 
+# 67: Firefox
+dietpi-software install 5 6 7 170 17 188 67
+# install i3 and dependencies
+apt install -y i3 polybar onboard fonts-roboto fonts-font-awesome dunst rofi
 
-# TODO: install i3
+# install some useful CLI tools for maintenance
+apt install -y alacritty zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+chsh -s "$(which zsh)"
+
+## Configure desktop environment & applications
+
+# copy_dotfiles i3
+copy_dotfiles alacritty
+copy_dotfiles rofi
+
+# install icon pack
+"$REPO_DIR/desktop/icons/install.sh"
+
+
 # TODO: install other packages required for desktop environment
-# Goal for next time: get a bootable image with i3 working and pidj user
+# Goal for next time: get a usable and pretty UI with i3, polybar, alacritty, rofi, onboard, dunst, nerd-fonts
+
+# TODO: install Mixxx
+# TODO: install mixxx-folders2crates
