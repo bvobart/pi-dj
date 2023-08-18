@@ -1,0 +1,8 @@
+configuration {
+	modi: "drun, run";
+	show-icons: true;
+	terminal: "alacritty";
+	font: "Roboto Mono 12";
+	icon-theme: "candy-icons";
+}
+@theme "~/.config/rofi/theme.rasi"
