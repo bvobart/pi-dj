@@ -72,19 +72,15 @@ apt install -y i3 polybar onboard fonts-roboto fonts-font-awesome dunst rofi
 apt install -y alacritty zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 chsh -s "$(which zsh)"
+git config pull.rebase true
 
 ## Configure desktop environment & applications
-
-# copy_dotfiles i3
-copy_dotfiles alacritty
-copy_dotfiles rofi
-
-# install icon pack
-"$REPO_DIR/desktop/icons/install.sh"
+"$REPO_DIR"/desktop/install.sh
 
 
 # TODO: install other packages required for desktop environment
-# Goal for next time: get a usable and pretty UI with i3, polybar, alacritty, rofi, onboard, dunst, nerd-fonts
+# Goal for next time: get a usable and pretty UI with i3, polybar, kitty, rofi, onboard, dunst
 
 # TODO: install Mixxx
 # TODO: install mixxx-folders2crates
+# TODO: add Pioneered skin and set as default

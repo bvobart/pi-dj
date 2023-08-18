@@ -12,8 +12,10 @@ function copy_dotfiles() {
   cp -r "$HERE/$config_dir" "/home/$USER/.config/"
 }
 
-copy_dotfiles alacritty
 copy_dotfiles kitty
 # copy_dotfiles i3
 copy_dotfiles rofi
 # copy_dotfiles polybar
+
+# Install icons theme
+"$HERE"/icons/install.sh
