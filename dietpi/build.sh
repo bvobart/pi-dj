@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -xe
 # This script is meant to be run inside a DietPi image and expects to be within this Git repository (as it will look for certain files there)
 # It installs the necessary packages and configs on top of DietPi to create the OS image for Pi-DJ.
 # TODO: figure out how I can experiment with the resulting images without having to flash them onto an actual Pi.
