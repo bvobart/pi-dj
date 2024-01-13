@@ -69,7 +69,7 @@ dietpi-software install 5 6 7 170 17 188 67
 apt install -y i3 polybar onboard fonts-roboto fonts-font-awesome dunst rofi
 
 # install some useful CLI tools for maintenance
-apt install -y alacritty zsh
+apt install -y kitty zsh man less
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 chsh -s "$(which zsh)"
 git config pull.rebase true
