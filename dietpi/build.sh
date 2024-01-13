@@ -19,7 +19,7 @@ useradd -m -G sudo -s "$(which zsh)" -p $default_password $default_username
 
 set_dietpi_config AUTO_SETUP_LOCALE en_GB.UTF-8
 set_dietpi_config AUTO_SETUP_KEYBOARD_LAYOUT gb
-set_dietpi_config AUTO_SETUP_TIMEZONE Europe/Amsterdam
+set_dietpi_config AUTO_SETUP_TIMEZONE "Europe\/Amsterdam"
 set_dietpi_config AUTO_SETUP_NET_ETHERNET_ENABLED 1
 set_dietpi_config AUTO_SETUP_NET_WIFI_ENABLED 1
 set_dietpi_config AUTO_SETUP_NET_WIFI_COUNTRY_CODE NL
