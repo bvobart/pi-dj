@@ -2,11 +2,20 @@
 # This script is meant to be run inside a DietPi image and expects to be within this Git repository (as it will look for certain files there)
 # It installs the necessary packages and configs on top of DietPi to create the OS image for Pi-DJ.
 # TODO: figure out how I can experiment with the resulting images without having to flash them onto an actual Pi.
+# Maybe with this? https://unix.stackexchange.com/questions/716226/emulating-arm-v8-to-run-dietpi-in-qemu-for-userspace-software
 
 HERE="$(dirname "$(realpath "$0")")"
 REPO_DIR=$(realpath "$HERE/..")
 
+# Add /boot/dietpi to PATH so we can use the dietpi-* commands
+PATH="$PATH:/boot/dietpi"
 source "$HERE/utils.sh"
+
+echo "DEBUGGING!!!!"
+ping -4nc 1 -W 10 9.9.9.9 || echo "Can't ping the internet!!!"
+echo "DEBUGGING!!!!"
+
+#--------------------------------------------------------------------------------------------------
 
 ## Create pi-dj user and delete default dietpi user
 default_username=pi-dj
@@ -56,6 +65,7 @@ set_dietpi_config SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS root # Disable SSH passwo
 #
 #
 
+
 ## Install all packages needed for a usable desktop environment
 # 5: Alsa
 # 6: X.Org
@@ -65,11 +75,12 @@ set_dietpi_config SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS root # Disable SSH passwo
 # 188: Go 
 # 67: Firefox
 dietpi-software install 5 6 7 170 17 188 67
+
 # install i3 and dependencies
-apt install -y i3 polybar onboard fonts-roboto fonts-font-awesome dunst rofi
+apt-get install -y i3 polybar onboard fonts-roboto fonts-font-awesome dunst rofi
 
 # install some useful CLI tools for maintenance
-apt install -y kitty zsh man less
+apt-get install -y kitty zsh man less
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 chsh -s "$(which zsh)"
 git config pull.rebase true

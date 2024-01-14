@@ -23,6 +23,7 @@ jobs:
         with:
           base_image: dietpi:rpi_armv8_bullseye
           cpu: cortex-a53
+          image_additional_mb: 500
           commands: |
             set +x
             echo
