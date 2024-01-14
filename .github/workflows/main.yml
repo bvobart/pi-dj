@@ -23,6 +23,7 @@ jobs:
         with:
           base_image: dietpi:rpi_armv8_bullseye
           cpu: cortex-a53
+          image_additional_mb: 500
           commands: |
             set +x
             echo
@@ -30,6 +31,8 @@ jobs:
             echo "> Building Pi-DJ                                                                                    "
             echo ">--------------------------------------------------------------------------------------------------<"
             echo
+
+            ping -4nc 1 -W 10 9.9.9.9
 
             ./dietpi/build.sh
 
