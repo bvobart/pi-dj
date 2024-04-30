@@ -5,13 +5,12 @@ on:
     branches:
       - main
       - arm-runner
-  pull_request:
-    paths:
-      - "**"
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Need to run on a self-hosted runner because `ping` does not work in the GitHub Actions runner
+    # thus causing `dietpi-software` to fail to test network connectivity and not install any software.
+    runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v3
