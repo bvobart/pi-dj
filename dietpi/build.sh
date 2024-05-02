@@ -9,11 +9,8 @@ REPO_DIR=$(realpath "$HERE/..")
 
 # Add /boot/dietpi to PATH so we can use the dietpi-* commands
 PATH="$PATH:/boot/dietpi"
-source "$HERE/utils.sh"
 
-echo "DEBUGGING!!!!"
-ping -4nc 1 -W 10 9.9.9.9 || echo "Can't ping the internet!!!"
-echo "DEBUGGING!!!!"
+source "$HERE/utils.sh"
 
 #--------------------------------------------------------------------------------------------------
 
@@ -43,6 +40,7 @@ set_dietpi_config AUTO_SETUP_AUTOMATED 1
 set_dietpi_config AUTO_SETUP_GLOBAL_PASSWORD pidj
 set_dietpi_config CONFIG_CHECK_DIETPI_UPDATES 1 # Enable daily check for DietPi updates. 0=disable | 1=enable
 set_dietpi_config CONFIG_CHECK_APT_UPDATES 1 # Enable daily check for APT package updates: 0=disable | 1=check only | 2=check and upgrade automatically
+set_dietpi_config CONFIG_CHECK_CONNECTION_IP "127.0.0.1" # Workaround for installing DietPi software on GitHub Actions runners because Ping doesn't work there. Will be reset after build. https://github.com/pguyot/arm-runner-action/issues/91#issuecomment-2088435969
 set_dietpi_config CONFIG_NTP_MODE 2 # Network time sync: 0=disabled | 1=boot only | 2=boot + daily | 3=boot + hourly | 4=Daemon + Drift
 set_dietpi_config SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS root # Disable SSH password logins, e.g. when using pubkey authentication
                                                             #   0=Allow password logins for all users, including root
@@ -95,3 +93,5 @@ git config pull.rebase true
 # TODO: install Mixxx
 # TODO: install mixxx-folders2crates
 # TODO: add Pioneered skin and set as default
+
+set_dietpi_config CONFIG_CHECK_CONNECTION_IP "9.9.9.9" # Reset the workaround for installing DietPi software on GitHub Actions runners.
