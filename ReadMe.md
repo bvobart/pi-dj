@@ -1,11 +1,24 @@
 # Pi-DJ
 
-Do you want to make your own standalone DJ deck using a Raspberry Pi and a MIDI DJ deck like the Pioneer DDJ-400? Pi-DJ makes it easy to run the open-source DJ software [Mixxx](#TODO) on your Raspberry Pi 4B (other models not tested).
+> Note: this project is still under development and not yet ready for use.
 
-## TODO
+Do you want to turn your Pioneer DDJ-400 or other computer-connected DJ deck into a standalone DJ deck with a Raspberry Pi and touchscreen? 
 
-- link to Mixxx
+Pi-DJ is a custom OS image for the Raspberry Pi 4B that includes Mixxx and a few other tools so you've got a ready-to-go DJ setup directly as you boot. It is based on [DietPi](https://github.com/MichaIng/DietPi) and includes the following pre-installed software:
 
-## Sources
+- TODO: list pre-installed software.
 
-Pi-DJ's OS is generated using a personal fork of [RPi-Distro/pi-gen](https://github.com/RPi-Distro/pi-gen/tree/arm64). The modifications I made on top are heavily based on and inspired by [fayaaz/mixxx-pi-gen](https://github.com/fayaaz/mixxx-pi-gen). A big thank you go out to both of these distros and their authors!
+## Installation
+
+Simply flash this image to an SD card, plug in your DJ deck, configure Mixxx to recognise your deck, grab your music library USB and you're ready to go!
+
+TODO: expand instructions.
+
+## Configuration
+
+TODO: explain how to configure Pi-DJ and how to wor
+
+## Credits
+
+TODO: thank the projects that inspirated me to write Pi-DJ
+TODO: add links to a bunch of the open-source projects that Pi-DJ heavily relies on.
