@@ -13,3 +13,7 @@ function copy_dotfiles() {
   chown -R $default_username:$default_username "/home/$default_username/.config/$config_dir"
   cp -r "$REPO_DIR/desktop/$config_dir" /home/$default_username/.config/
 }
+
+function log {
+  echo "[Pi-DJ Builder]: $1"
+}

@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 # This script is meant to be run inside a DietPi image and expects to be within this Git repository (as it will look for certain files there)
 # It installs the necessary packages and configs on top of DietPi to create the OS image for Pi-DJ.
 # TODO: figure out how I can experiment with the resulting images without having to flash them onto an actual Pi.
@@ -15,6 +15,7 @@ source "$HERE/utils.sh"
 #--------------------------------------------------------------------------------------------------
 
 ## Create pi-dj user and delete default dietpi user
+log "Creating pi-dj user ..."
 default_username=pi-dj
 default_password=pidj
 useradd -m -G sudo -s "$(which zsh)" -p $default_password $default_username
@@ -22,6 +23,7 @@ useradd -m -G sudo -s "$(which zsh)" -p $default_password $default_username
 
 ## Configure /boot/dietpi.txt
 # TODO: instruct users about dietpi-wifi.txt to pre-enter WiFicredentials.
+log "Configuring DietPi /boot/dietpi.txt ..."
 
 set_dietpi_config AUTO_SETUP_LOCALE en_GB.UTF-8
 set_dietpi_config AUTO_SETUP_KEYBOARD_LAYOUT gb
@@ -65,25 +67,28 @@ set_dietpi_config SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS root # Disable SSH passwo
 
 
 ## Install all packages needed for a usable desktop environment
+log "Installing DietPi software packages ..."
 # 5: Alsa
 # 6: X.Org
 # 7: FFmpeg
 # 170: UnRAR
-# 17: Git
 # 188: Go 
 # 67: Firefox
-dietpi-software install 5 6 7 170 17 188 67
+dietpi-software install 5 6 7 170 188 67
 
 # install i3 and dependencies
+log "Installing i3 and dependencies ..."
 apt-get install -y i3 polybar onboard fonts-roboto fonts-font-awesome dunst rofi
 
 # install some useful CLI tools for maintenance
-apt-get install -y kitty zsh man less
+log "Installing CLI tools (git, kitty, zsh, oh-my-zsh) ..."
+apt-get install -y git kitty zsh man less
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 chsh -s "$(which zsh)"
 git config pull.rebase true
 
 ## Configure desktop environment & applications
+log "Configuring desktop environment ..."
 "$REPO_DIR"/desktop/install.sh
 
 
@@ -94,4 +99,7 @@ git config pull.rebase true
 # TODO: install mixxx-folders2crates
 # TODO: add Pioneered skin and set as default
 
+log "Finishing up ..."
 set_dietpi_config CONFIG_CHECK_CONNECTION_IP "9.9.9.9" # Reset the workaround for installing DietPi software on GitHub Actions runners.
+
+log "Done!"
