@@ -7,6 +7,8 @@
 HERE="$(dirname "$(realpath "$0")")"
 REPO_DIR=$(realpath "$HERE/..")
 
+# Ensure /boot/dietpi/.hw_model exists: https://github.com/pguyot/arm-runner-action/issues/91#issuecomment-2091910142
+/boot/dietpi/func/dietpi-obtain_hw_model
 # Add /boot/dietpi to PATH so we can use the dietpi-* commands
 PATH="$PATH:/boot/dietpi"
 
