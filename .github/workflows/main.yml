@@ -14,12 +14,23 @@ jobs:
         with:
           submodules: recursive
 
+      # TODO: configure a cache for the apt packages that are downloaded during the build.
+      # Copilot generated the following code, but I'm not sure yet if it'll work.
+      # - name: Cache apt packages
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /var/cache/apt
+      #     key: ${{ runner.os }}-apt-${{ hashFiles('**/apt.txt') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-apt-
+
       - uses: pguyot/arm-runner-action@v2
         id: build_image
         with:
           base_image: dietpi:rpi_armv8_bullseye
           cpu: cortex-a53
-          image_additional_mb: 500
+          image_additional_mb: 840 # produces a total disk image size of about 1536 MiB
+          optimize_image: false # TODO: this is broken, see the comment below
           commands: |
             set +x
             echo
@@ -29,6 +40,12 @@ jobs:
             echo
 
             ./dietpi/build.sh
+
+            # TODO: for some reason, the resulting image only has one partition, namely the boot partition.
+            # TODO: There's no secondary ext4 partition...
+            # Seems to be because of an error during resizing the rootfs partition: https://github.com/pguyot/arm-runner-action/issues/87
+
+            df
 
             echo
             echo ">--------------------------------------------------------------------------------------------------<"

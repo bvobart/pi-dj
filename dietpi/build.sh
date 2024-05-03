@@ -45,7 +45,7 @@ set_dietpi_config AUTO_SETUP_GLOBAL_PASSWORD pidj
 set_dietpi_config CONFIG_CHECK_DIETPI_UPDATES 1 # Enable daily check for DietPi updates. 0=disable | 1=enable
 set_dietpi_config CONFIG_CHECK_APT_UPDATES 1 # Enable daily check for APT package updates: 0=disable | 1=check only | 2=check and upgrade automatically
 set_dietpi_config CONFIG_CHECK_CONNECTION_IP "127.0.0.1" # Workaround for installing DietPi software on GitHub Actions runners because Ping doesn't work there. Will be reset after build. https://github.com/pguyot/arm-runner-action/issues/91#issuecomment-2088435969
-set_dietpi_config CONFIG_NTP_MODE 2 # Network time sync: 0=disabled | 1=boot only | 2=boot + daily | 3=boot + hourly | 4=Daemon + Drift
+set_dietpi_config CONFIG_NTP_MODE 0 # Network time sync, disabled during build. Values: 0=disabled | 1=boot only | 2=boot + daily | 3=boot + hourly | 4=Daemon + Drift
 set_dietpi_config SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS root # Disable SSH password logins, e.g. when using pubkey authentication
                                                             #   0=Allow password logins for all users, including root
                                                             #   root=Disable password login for root user only
@@ -103,5 +103,5 @@ log "Configuring desktop environment ..."
 
 log "Finishing up ..."
 set_dietpi_config CONFIG_CHECK_CONNECTION_IP "9.9.9.9" # Reset the workaround for installing DietPi software on GitHub Actions runners.
-
+set_dietpi_config CONFIG_NTP_MODE 3 # Network time sync: 0=disabled | 1=boot only | 2=boot + daily | 3=boot + hourly | 4=Daemon + Drift
 log "Done!"
